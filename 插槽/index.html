@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/vue.js">
+        /**
+         * 插槽:
+         *  1.表示我们可以现在组件里面使用《slot》占一个位置，等使用组件人填充位置内容
+         *  2.《slot》可以时用具名插槽，和默认插槽
+         *  3，具名插槽是《slot》设置了name名称，而默认插槽是没有设置名称
+         *  4，我们可以使用v-slot:插槽名称方式来把内容放入哪一个插槽,但是v-slot:必需使用在【template】上面，也就是说，我们插入的内容，需要用【template】包裹住
+         */
+        /**
+         * 插槽作用域：
+         *  1.当我们使用组件的时候，想使用组件的内容时候，我们可以使用组件的插槽来绑定数据，往外传递
+         *  2.我们可以在【slot v-bind:绑定对象="组件数据"】
+         *  3.在【template v-slot:插槽名称="赋值数据名称"】
+         *  4.使用【赋值数据名称.绑定对象.属性】就可以获取到值
+         */
+        /**
+         * v-slot: 可以使用缩写【#】缩写
+         *
+         */
+    </script>
+    <title>插槽</title>
+</head>
+<body>
+<div id="app">
+    <myheader>
+        <!-- v-slot:two="prodUser"
+            two: 插槽名称
+            prodUser：赋值绑定的数据给prodUser -->
+        <template v-slot:two="prodUser">
+            <!--user: 表示插槽使用v-bind: 绑定的名称 -->
+            <div> 帮我插入到插槽的位置 {{ prodUser.user.name }} </div>
+        </template>
+    </myheader>
+    <myfooter>
+         <template #one="prodUser">
+            <div> {{ prodUser.user.name }} </div>
+        </template>
+    </myfooter>
+</div>
+<template id="myheader">
+    <div>
+        <p> 我是header </p>
+        <!-- name: 插槽的名称，
+            :user="obj" 将data的obj绑定给user对象，提供给其他组件使用-->
+        <slot :user="obj" name="two">我是个插槽</slot>
+    </div>
+</template>
+<template id="myfooter">
+    <div>
+        <p> 我是footer </p>
+        <slot name="one" v-bind:user="obj"></slot>
+    </div>
+</template>
+</body>
+
+<script>
+    let myheader = { template: '#myheader',data :function () {
+            return { obj: { name: "seven second", age: 29}}
+        }}
+    let myfooter = { template: "#myfooter", data :function () {
+            return { obj: { name: "seven second", age: 29}}
+        }}
+    let vue = new Vue({
+        el: '#app',
+        components: { myheader, myfooter }
+    })
+
+</script>
+</html>
