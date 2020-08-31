@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+    <script src="js/vue.min.js"></script>
+    <script>
+        /**
+         * 何为动态组件：
+         *  当我们想切换两个组件的时候，我们可以使用v-if 或者v-show 来切换组件，但是，组件的数据并没有保存，也会造成组件的销毁和创建来消耗性能
+         *  我们可以使用<component :is="组件名称"></component>来切换组件
+         *  使用keep-alive来缓存组件的数据，当切换组件的时候，不会将组件销毁和重新创建，会保存当前组件的状态
+         */
+    </script>
+</head>
+<body>
+<div id="app">
+    <!-- 使用keep-alive来缓存，组件的状态，当切换组件的时候，不会将组件销毁和重新创建，会保存当前组件的状态-->
+    <keep-alive>
+        <component :is="componentName"></component>
+    </keep-alive>
+    <button @click="changeComponent">切换组件</button>
+</div>
+
+</body>
+<script>
+    Vue.component('HomeText', {
+        template: '<div><p>我是个文本，你想咋滴</p><input type="checkbox"/></div>'
+    })
+
+    Vue.component('HomeImage', {
+        template: '<div><img src="./images/xihu.jpg"/></div>'
+    })
+</script>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            componentName: "HomeImage"
+        },
+        methods: {
+            changeComponent() {
+                this.componentName = this.componentName === "HomeImage" ? "HomeText" : "HomeImage"
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script  type="text/javascript" src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input v-focus="'blue'" type="text"/>
+        <!-- v-fouce:inputType
+            inputType: 表示传递给自定义指令的参数，在自定义指令里面可以使用arg参数接受
+            -->
+        <input v-focus:inputtype="'number'" type="text">
+        <!-- 同样的我们可以使用:[参数名称] 来动态修改自定的参数-->
+        <input v-focus:[direction]="200" type="text">
+    </div>
+</body>
+<script type="text/javascript">
+    /**
+     * 使用directive 注册一个全局的指令
+     *  第一个参数： focus表示：自定义指令的名称，但是使用的时候，需要在前面添加 【v-】
+     *  第二个参数是个方法：标识使用指定的时候，再哪一步调用方法
+     */
+    Vue.directive('focus', {
+        /**
+         * 表示：当指令第一次绑定倒标签的时候调用
+         * @param el 标签本身
+         * @param objc 标识绑定的一些值
+         */
+        bind: function(el, objc) {
+            let arg = objc.arg
+            if (arg === 'inputtype') {
+                el.type = objc.value;
+            } else if (arg == "left") {
+               el.style.position = 'fixed';
+               el.style.left = objc.value + 'px';
+            } else {
+                el.style.backgroundColor = objc.value;
+            }
+        },
+        /**
+         * 表示：当标签插入父节点的时候被调用
+         * @param el 表示：标签
+         */
+        inserted: function (el, objc) {
+            el.focus()
+
+        },
+        /**
+         * 组件vnode更新调用此方法
+         * @param: el 元素
+         */
+        update: function(el) {
+
+        },
+        /**
+         * 更新完成调用
+         * @param: el 绑定指令的元素
+         */
+        componentUpdated: function(el) {
+
+        },
+        /**
+         *
+         * @param el
+         */
+        unbind: function (el) {
+
+        }
+    })
+
+    let vue = new Vue({
+        el: "#app",
+        data: {
+            name: "七秒",
+            direction: 'left'
+        },
+    })
+    /**
+     * 自定义指令：第二个参数都是只读的，不可以随意修改
+     * 我们也可以传递给指令一些自定义参数
+     */
+
+</script>
+
+</html>

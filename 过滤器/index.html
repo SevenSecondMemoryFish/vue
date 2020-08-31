@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>过滤器</title>
+    <script src="./js/vue.min.js"></script>
+    <script>
+        /**
+         * 何为过滤器：
+         *  过滤器：可以将一些文本格式化，显示出来我们想要的效果
+         *  写法：{{ 格式化文本 | 过滤器名称 }}
+         *  注意： 我们可以使用多个过滤器来啊过滤响应的文本
+         *      {{ 格式化文本 | 过滤器名称a | 过滤器名称a }}
+         */
+    </script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="(item, index) in orderlist" :key="item"> {{ item | orderstatus | filterOrderStatus }}</li>
+    </ul>
+</div>
+</body>
+<script>
+    /// 定义一个全局过滤器
+    /**
+     * 我们使用filter来注册一个全局过滤器
+     * 第一个参数：过滤器的名称
+     * 第二个参数：是个function，来处理过滤的数据，
+     *  function接受一个参数value：表示需要过滤的文本
+     */
+    Vue.filter('orderstatus', function (value) {
+        switch (value) {
+            case "1":
+                return "已下单"
+            case "2":
+                return "未支付"
+            case "3":
+                return "已支付"
+            case "4":
+                return "已完成"
+            default:
+                return "联系客服"
+        }
+    })
+
+    let veu = new Vue({
+        el: "#app",
+        data: {
+            orderlist: ["1", "2", "3", "4", "5"]
+        },
+        // 添加一个局部过滤器
+        filters: {
+            filterOrderStatus: function (value) {
+                if (value == "联系客服") return "给客服打电话，处理的比较快"
+                return value
+            }
+        }
+    })
+</script>
+</html>

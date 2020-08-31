@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>混入</title>
+    <script src="js/vue.min.js">
+        /**
+         * 混入：
+         *  混入提供了一种比较灵活的方式，来区分Vue组件的可复用的功能
+         *  个人理解：混入就比如是个已经有实现协议，比如：swift extension 协议名称，当我们组件，混入这个对象时候，就如果我们继承了这个协议
+         *  注意点：
+         *      1.其实组件中也是可以生命周期的钩子函数、data、methods、components、directives等方法的
+         *      2.当混入对象和组件中的钩子函数冲突的时候，会先执行混入对象的钩子函数，再执行组件的钩子函数
+         *      3.当混入对象和组件中的data、methods、components、directives合并冲突的时候，会优先使用组件中的数据
+         *      4.当然我们也可以自定义一些合并策略，使用`optionMergeStrategies`
+         */
+    </script>
+</head>
+<body>
+<div id="app">
+    <p>{{ name }}</p>
+    <button @click="buttonClicked">我是个按钮</button>
+</div>
+</body>
+<script>
+    /**
+     * 创建一个混入对象
+     */
+    let myMixin = {
+        data: {
+            name: "七秒"
+        },
+        created: function () {
+            console.log("created");
+        },
+        methods: {
+            buttonClicked() {
+                console.log("我是按钮");
+            }
+        }
+    }
+    /**
+     * 自定义一个data合并策略
+     * @param toValue   混入对象、子组件值
+     * @param fromValue 使用混入对象和组件的值
+     * @returns {*}
+     */
+    Vue.config.optionMergeStrategies.data = function(toValue, fromValue) {
+        /// data默认合并策略是使用组件的值，而我们重新了data的合并策略，让他是用混入对象、子组件的值
+        if (toValue === undefined) {
+            return fromValue;
+        } else {
+            return toValue
+        }
+    }
+    let vue = new Vue({
+        el: "#app",
+        mixins: [myMixin],
+        data: {
+            name: "sevensecond"
+        },
+        created: function () {
+            console.log("vue created");
+        },
+        methods: {
+            buttonClicked() {
+                console.log("this.$options.op", this.name)
+                console.log("vue 我是按钮");
+            }
+        }
+    });
+</script>
+</html>
