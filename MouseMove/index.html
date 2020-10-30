@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        .list {
+            display: flex;
+        }
+        .box {
+            transition: all 0.3s;
+             width: 180px;
+            height: 100px;
+        }
+        #box {
+            width: 100%;
+            height: 100%;
+        }
+        .box~.box {
+            margin-left: 20px;
+        }
+        .box:hover {
+            transform: translateY(10px);
+        }
+        .big_box {
+            transition: all 0.3s;
+            width: 180px;
+            height: 100px;
+            overflow: hidden;
+        }
+        .big_img {
+            width: 549px;
+            height: 311px;
+            /*transition: all 0.3s;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="list">
+        <div class="box" >
+            <img id="box" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602304891198&di=55477349c61b9c68ec18db19ca7341c6&imgtype=0&src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202007%2F06%2F20200706204129_xlycx.thumb.400_0.jpeg" alt="">
+            <div class="big_box">
+                <img id="big_img" class="big_img" src="111.jpeg">
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    onload = function () {
+        let div = document.getElementById("box")
+        div.addEventListener('mousemove',onMouseMove,true);
+    }
+    onMouseMove = function (e) {
+        let offsetX = e.offsetX
+        let element = document.getElementById("big_img")
+        let quotient = parseInt(offsetX / 30);
+        let c = parseInt(quotient / 3)
+        let row = parseInt(quotient % 3)
+        element.style.marginLeft = (-row * 185) + "px"
+        element.style.marginTop = (-c * 105) + "px"
+    }
+</script>
+</html>
