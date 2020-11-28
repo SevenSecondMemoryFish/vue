@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vuex.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>模块A</h1>
+        <h2> {{ $store.state.a.name}}</h2>
+        <h2>{{$store.getters.getFullName}}</h2>
+        <h2>{{$store.getters.getFullName2}}</h2>
+        <button @click="updateName"> 修改名字</button>
+        <button @click="asnyUpdateName">异步更新数据</button>
+        <h2> count </h2>
+         <h2>{{$store.state.count}}</h2>
+        <h2> count 平方</h2>
+        <h2> {{ $store.getters.getPowCount}}</h2>
+
+        <button @click="addCount">添加</button>
+        <button @click="reduceCount">减少</button>
+
+        <h2>{{ $store.getters.getPowCountReduce(22)}}</h2>
+        <h2>{{ $store.getters.getPowCountAdd}}</h2>
+</div>
+
+</body>
+<script type="module">
+    import store from './store/index.js'
+    import { ADDSTATECOUNT } from './store/mutations-types.js'
+    new Vue({
+        el: "#app",
+        store,
+        methods: {
+             addCount() {
+                this.$store.commit(ADDSTATECOUNT, 20)
+            },
+            reduceCount() {
+                this.$store.commit('reduceStateCount')
+
+            },
+            updateName() {
+                this.$store.commit('updateName')
+            },
+            asnyUpdateName() {
+                this.$store.dispatch('aUpdateName')
+            }
+        }
+    })
+</script>
+</html>
