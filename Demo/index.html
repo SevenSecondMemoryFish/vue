@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .animation {
+            width: 100px;
+            height: 100px;
+            background: rebeccapurple;
+            animation: myanimation 2s linear 0s 2 alternate;
+            position: absolute;
+        }
+        @keyframes myanimation {
+            0% {
+                left: 0;
+                background: rebeccapurple;
+            }
+            50% {
+                left: 50px;
+                background: antiquewhite;
+            }
+            100% {
+                left: 100px;
+                background: red;
+            }
+            /*from {*/
+            /*    left: 0px;*/
+            /*}*/
+            /*to {*/
+            /*    left: 100px;*/
+            /*}*/
+        }
+
+    </style>
+</head>
+<body>
+<div class="animation"></div>
+</body>
+
+</html>
